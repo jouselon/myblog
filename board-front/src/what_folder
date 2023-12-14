@@ -1,0 +1,11 @@
+apis        - 백엔드와 연결하는 API
+assets      - 이미지 또는 미디어 관리
+components  - 공통 components
+components  - 상수
+hooks       - hooks 함수
+layouts     - 레이아웃(헤더, 푸터)
+mocks       - 미정..
+stores      - 전역, 상태 관리
+types       - 여러가지 타입 저장할 공간
+utils       - 각종 여러가지 유틸
+views       - 뷰, 페이지 관련된 것
