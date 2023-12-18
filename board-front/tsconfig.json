@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "baseUrl": "./src", //상대경로대신 절대경로
     "lib": [
       "dom",
       "dom.iterable",

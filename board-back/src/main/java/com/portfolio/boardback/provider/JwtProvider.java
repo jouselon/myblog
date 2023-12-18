@@ -25,7 +25,7 @@ public class JwtProvider {
 
     // 이메일을 주제로, 현재 시간을 발행 시간으로, 계산된 만료 날짜로 하는 JWT 토큰을 생성. // JWT 토큰을 빌드하고 반환
     String jwt = Jwts.builder()
-        .signWith(SignatureAlgorithm.HS256, secretKey)  // HMAC SHA-256을 사용하여 서명
+        .signWith(SignatureAlgorithm.ES256, secretKey)  // HMAC SHA-256을 사용하여 서명
         .setSubject(email).setIssuedAt(new Date()).setExpiration(expiredDate)
         .compact();
 

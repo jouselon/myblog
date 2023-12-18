@@ -1,4 +1,4 @@
-package com.portfolio.boardback.dto;
+package com.portfolio.boardback.dto.response;
 
 import com.portfolio.boardback.common.ResponseCode;
 import com.portfolio.boardback.common.ResponseMessage;
