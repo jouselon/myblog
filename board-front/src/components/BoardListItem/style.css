@@ -1,0 +1,7 @@
+.board-list-item {
+    padding: 24px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
