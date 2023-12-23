@@ -24,53 +24,63 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtProvider jwtProvider;
 
-
   @Override
   protected void doFilterInternal
       (HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
     try {
-
+      // JWT 토큰 추출
       String token = parseBearerToken(request);
 
+      // 토큰이 없으면 다음 필터로 이동
       if (token == null) {
         filterChain.doFilter(request, response);
         return;
       }
+
+      // JWT 토큰 검증
       String email = jwtProvider.validate(token);
+
+      // 토큰이 유효하지 않으면 다음 필터로 이동
       if (email == null) {
         filterChain.doFilter(request, response);
         return;
       }
+
+      // 인증 토큰 생성
       AbstractAuthenticationToken authenticationToken =
           new UsernamePasswordAuthenticationToken(email, null, AuthorityUtils.NO_AUTHORITIES);
       authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+      // 보안 컨텍스트 설정
       SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
       securityContext.setAuthentication(authenticationToken);
-
       SecurityContextHolder.setContext(securityContext);
 
-  }catch(Exception e) {
-    e.printStackTrace();
+    } catch (Exception e) {
+      // 예외 처리
+      e.printStackTrace();
+    }
+
+    // 다음 필터로 이동
+    filterChain.doFilter(request, response);
   }
 
-  filterChain.doFilter(request, response);
-
-}
-
-
-  private String parseBearerToken(HttpServletRequest request){
+  // Authorization 헤더에서 Bearer 토큰 추출
+  private String parseBearerToken(HttpServletRequest request) {
     String authorization = request.getHeader("Authorization");
 
+    // Authorization 헤더가 없으면 null 반환
     boolean hasAuthorization = StringUtils.hasText(authorization);
     if (!hasAuthorization) return null;
 
+    // Bearer 토큰이 아니면 null 반환
     boolean isBearer = authorization.startsWith("Bearer ");
     if (!isBearer) return null;
 
+    // "Bearer " 이후의 토큰 반환
     String token = authorization.substring(7);
     return token;
-
   }
 }

@@ -33,6 +33,7 @@ public class JwtProvider {
     return jwt;
   }
 
+
   // JWT 토큰을 유효성 검사하고 주제(Subject)를 추출하는 메서드
   public String validate(String jwt) {
     Claims claims = null;
@@ -47,7 +48,7 @@ public class JwtProvider {
       return null;
     }
 
-    // 추출된 주제 반환
+    // 성공시 추출된 주제 반환
     return claims.getSubject();
   }
 
