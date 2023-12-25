@@ -32,6 +32,57 @@
   background-size: 100% 100%;
 }
 
+/*로그인 버튼*/
+.black-button {
+  border-radius: 46px;
+  width: 95px;
+  height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0,0,0,1);
+
+  color: rgba(255,255,255,1);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+
+  cursor: pointer;
+}
+
+.black-button:hover {
+  background-color: rgba(0,0,0,0.85);
+}
+
+/*마이페이지 버튼*/
+.white-button {
+  border: 1px solid rgba(0,0,0,0.5);
+  border-radius: 46px;
+  width: 93px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(255,255,255,1);
+
+  color: rgba(0,0,0,0.5);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+  cursor: pointer;
+}
+
+
+.white-button:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
 .eye-light-off-icon {
   background-image: url(assets/image/eye-light-off.png);
 }
@@ -54,4 +105,12 @@
 
 .naver-blog-icon {
   background-image: url(assets/image/naver-blog.png);
+}
+
+.logo-dark-icon{
+  background-image: url(assets/image/filmport-logo.png);
+}
+
+.search-light-icon {
+  background-image: url(assets/image/search-light.png);
 }
