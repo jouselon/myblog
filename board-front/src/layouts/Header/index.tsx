@@ -6,9 +6,13 @@ import {useNavigate, useParams} from "react-router-dom";
 import {AUTH_PATH, MAIN_PATH, SEARCH_PATH, USER_PATH} from 'constants/index';
 import * as events from "events";
 import {useCookies} from "react-cookie";
+import {userLoginUserStore} from "stores";
 
 //component : 헤더 레이아웃
 export default function Header() {
+
+    //state : 로그인 유저 상태
+    const { loginUser, setLoginUser,  resetLoginUser } = userLoginUserStore();
 
     //state : cookie 상태 -로그인 후 마이페이지버튼으로 변경...
     const [cookies, setCookies] = useCookies();
@@ -102,12 +106,30 @@ export default function Header() {
     };
 
     //component : 로그인 또는 마이페이지 버튼 컴포넌트
-    const LoginMyPageButton = () => {
+    const MyPageButton = () => {
+
+        //state : userEmail path variable 상태
+        const { userEmail } = useParams();
 
         //event handler : 마이페이지 버튼 클릭 이벤트 처리 함수
         const onMyPageButtonClickHandler = () => {
+
+            if (!loginUser) return;
+            const {email} = loginUser;
+
             navigate(USER_PATH(''));
         }
+
+        //event handler : 마이페이지 버튼 클릭 이벤트 처리 함수
+        const onSignOutButtonClickHandler = () => {
+            resetLoginUser();
+            navigate(MAIN_PATH())
+
+        }
+
+
+
+
 
         //event handler : 로그인 버튼 클릭 이벤트 처리 함수
 const onSighInButtonClickHandler = () => {
@@ -118,8 +140,12 @@ const onSighInButtonClickHandler = () => {
             //render: 마이페이지 버튼 컴포넌트 렌더링
             return <div className='white-button' onClick={onMyPageButtonClickHandler}>{'마이페이지'}</div>
 
+        //render: 로그아웃 버튼 컴포넌트 렌더링
+        if (isLogin && userEmail === loginUser?.email)
+        return <div className='white-button' onClick={onSignOutButtonClickHandler}>{'로그아웃'}</div>
+
         //render : 로그인 버튼 컴포넌트 렌더링
-        return <div className='black-button'>{'로그인'}</div>;
+        return <div className='black-button' onClick={onSighInButtonClickHandler}>{'로그인'}</div>;
 
     }
 
@@ -136,7 +162,7 @@ const onSighInButtonClickHandler = () => {
                 </div>
                 <div className='header-right-box'>
                     <SearchButton/>
-                    <LoginMyPageButton/>
+                    <MyPageButton/>
                 </div>
             </div>
         </div>
