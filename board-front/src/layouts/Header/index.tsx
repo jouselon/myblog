@@ -2,11 +2,21 @@
 
 import React, {useState, ChangeEvent, useRef, KeyboardEvent, useEffect} from 'react'
 import './style.css'
-import {useNavigate, useParams} from "react-router-dom";
-import {AUTH_PATH, MAIN_PATH, SEARCH_PATH, USER_PATH} from 'constants/index';
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {
+    AUTH_PATH,
+    BOARD_DETAIL_PATH, BOARD_PATH,
+    BOARD_UPDATE_PATH,
+    BOARD_WRITE_PATH,
+    MAIN_PATH,
+    SEARCH_PATH,
+    USER_PATH
+} from 'constants/index';
 import * as events from "events";
 import {useCookies} from "react-cookie";
-import {userLoginUserStore} from "stores";
+import {useBoardStore, userLoginUserStore} from "stores";
+import BoardDetail from "views/Board/Detail";
+
 
 //component : 헤더 레이아웃
 export default function Header() {
@@ -14,10 +24,36 @@ export default function Header() {
     //state : 로그인 유저 상태
     const { loginUser, setLoginUser,  resetLoginUser } = userLoginUserStore();
 
+    //state : path 상태
+    const { pathname } = useLocation();
+
     //state : cookie 상태 -로그인 후 마이페이지버튼으로 변경...
     const [cookies, setCookies] = useCookies();
+
     //state : 로그인 상태
     const[isLogin, setLogin] = useState<boolean>(false)
+
+    //state : 인증 페이지 상태
+    const [isAuthPage, setAuthPage] = useState<boolean>(false);
+
+    //state : 메인 페이지 상태
+    const[isMainPage, setMainPage] = useState<boolean>(false)
+
+    //state : 검색 페이지 상태
+    const[isSearchPage, setSearchPage] = useState<boolean>(false)
+
+    //state : 게시물 상세 페이지 상태
+    const[isBoardDetailPage, setBoardDetailPage] = useState<boolean>(false)
+
+    //state : 게시물 작성 페이지 상태
+    const[isBoardWritePage, setBoardWritePage] = useState<boolean>(false)
+
+    //state : 게시물 수정 페이지 상태
+    const[isBoardUploadPage, setBoardUploadPage] = useState<boolean>(false)
+
+    //state : 유저 페이지 상태
+    const[isUserPage, setUserPage] = useState<boolean>(false)
+
 
 
     //function : 네비게이트 함수
@@ -127,14 +163,10 @@ export default function Header() {
 
         }
 
-
-
-
-
         //event handler : 로그인 버튼 클릭 이벤트 처리 함수
-const onSighInButtonClickHandler = () => {
+        const onSighInButtonClickHandler = () => {
             navigate(AUTH_PATH());
-}
+        };
 
         if (isLogin)
             //render: 마이페이지 버튼 컴포넌트 렌더링
@@ -147,7 +179,53 @@ const onSighInButtonClickHandler = () => {
         //render : 로그인 버튼 컴포넌트 렌더링
         return <div className='black-button' onClick={onSighInButtonClickHandler}>{'로그인'}</div>;
 
+    };
+
+    //component : 업로드 버튼 컴포넌트;
+    const UploadButton = () => {
+
+        //state : 게시물 상태
+        const { title, content, boardImageFileList,resetBoard} = useBoardStore();
+
+        //event handler : 업로드 버튼 클릭 이벤트 처리 함수
+        const onUploadButtonClickHandler = () => {
+
+        }
+
+
+        //render : 업로드 버튼 컴포넌트 렌더링
+        if (title && content)
+        return <div className='disable-buttonx' onClick={onUploadButtonClickHandler}>{'업로드'}</div>;
+
+        //render : 업로드 불가 버튼 컴포넌트 렌더링
+        return <div className='disable-button'>{'업로드'}</div>;
+
     }
+    //effect : path가 변경될ㄹ 때마다 변경될 함수
+    useEffect(()=>{
+        const isAuthPage = pathname.startsWith(AUTH_PATH());
+        setAuthPage(isAuthPage);
+
+        const isMainPage = pathname.startsWith(MAIN_PATH());
+        setMainPage(isMainPage);
+
+        const isSearchPage = pathname.startsWith(SEARCH_PATH(''));
+        setSearchPage(isSearchPage)
+
+        const isBoardDetailPage = pathname.startsWith(BOARD_PATH() + '/' + BOARD_DETAIL_PATH(''));
+        setBoardDetailPage(isBoardDetailPage)
+
+        const isBoardWritePage = pathname.startsWith(BOARD_PATH() + '/' + BOARD_WRITE_PATH);
+        setBoardWritePage(isBoardWritePage)
+
+        const isBoardUploadPage = pathname.startsWith(BOARD_PATH() + '/' + BOARD_UPDATE_PATH(''));
+        setBoardUploadPage(isBoardUploadPage)
+
+        const isUserPage = pathname.startsWith(USER_PATH(''));
+        setUserPage(isUserPage)
+
+    },[pathname]);
+
 
     //render : 헤더 레이아웃 렌더링
     return (
@@ -161,8 +239,9 @@ const onSighInButtonClickHandler = () => {
                     <div className='header-logo'>{`FILMPORT`}</div>
                 </div>
                 <div className='header-right-box'>
-                    <SearchButton/>
-                    <MyPageButton/>
+                    {(isUserPage || isMainPage || isSearchPage || isBoardDetailPage) && <SearchButton/>}
+                    {(isMainPage || isSearchPage || isBoardDetailPage || isUserPage) && <MyPageButton/>}
+                    {(isBoardWritePage || isBoardUploadPage) && <UploadButton/>}
                 </div>
             </div>
         </div>
