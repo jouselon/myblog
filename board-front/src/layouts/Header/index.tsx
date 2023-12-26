@@ -11,7 +11,7 @@ import {
     MAIN_PATH,
     SEARCH_PATH,
     USER_PATH
-} from 'constants/index';
+} from 'constant/index';
 import * as events from "events";
 import {useCookies} from "react-cookie";
 import {useBoardStore, userLoginUserStore} from "stores";
