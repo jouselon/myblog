@@ -1,0 +1,13 @@
+
+POST http://localhost:4000/api/v1/auth/sign-up
+Content-Type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "P!ssw0rd",
+  "nickname": "admin",
+  "telNumber": "01023456789",
+  "address": "부산광역시 부산진구",
+  "addressDetail": "에이원프라자",
+  "agreedPersonal": true
+}

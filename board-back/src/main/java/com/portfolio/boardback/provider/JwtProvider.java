@@ -14,8 +14,9 @@ import java.util.Date;
 public class JwtProvider {
 
   // 비밀 키. 실제로는 보안상 안전한 방식으로 관리되어야 함.
-  @Value("${security=key}") //application.properties 확인
-  private  String secretKey;
+  @Value("${secret-key}")   //application.properties 확인
+  private String secretKey;
+
 
   // JWT 토큰을 생성하는 메서드
   public String create(String email) {

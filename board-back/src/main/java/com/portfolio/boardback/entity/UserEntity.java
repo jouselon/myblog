@@ -1,6 +1,7 @@
 package com.portfolio.boardback.entity;
 
 import com.portfolio.boardback.dto.request.auth.SignUpRequestDto;
+import com.portfolio.boardback.dto.response.auth.SignUpResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +14,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="user")
-@Table(name = "user")
+@Table(name="user")
 public class UserEntity {
-
   @Id
   private String email;
   private String password;
@@ -23,9 +23,8 @@ public class UserEntity {
   private String telNumber;
   private String address;
   private String addressDetail;
-  private boolean agreedPersonal;
   private String profileImage;
-
+  private boolean agreedPersonal;
 
   public UserEntity(SignUpRequestDto dto) {
     this.email = dto.getEmail();

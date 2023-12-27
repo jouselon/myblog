@@ -1,4 +1,4 @@
-enum ResponsCode {
+enum ResponseCode {
 
     SUCCESS = "SU",
     VALIDATION_FAILED = "VF",
@@ -14,5 +14,5 @@ enum ResponsCode {
 
 }
 
-export default ResponsCode;
+export default ResponseCode;
 
