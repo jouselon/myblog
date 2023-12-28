@@ -7,7 +7,8 @@
 
 body {
   margin: 0;
-  width: 1440px;
+  /*width: 1440px;*/
+  width: 1695px;
   font-family: 'Pretendard-Regula', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
