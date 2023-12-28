@@ -1,7 +1,7 @@
-import {ResponsCode} from "types/enum";
+import {ResponseCode} from "types/enum";
 
 export default interface ResponseDto {
-    code: ResponsCode;
+    code: ResponseCode;
     message : string;
 
 }

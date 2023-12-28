@@ -162,7 +162,7 @@
             "id": "a33c9553-d65f-4b9a-98ba-6e9b542f516b"
           },
           {
-            "name": "address_email",
+            "name": "address_detail",
             "comment": "사용자 상세 주소",
             "dataType": "TEXT",
             "default": "",

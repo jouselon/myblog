@@ -24,9 +24,6 @@ public class BoardEntity {
   private int favoriteCount;
   private String writerEmail;
 
-
-
-
   }
 
 
