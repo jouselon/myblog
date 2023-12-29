@@ -23,7 +23,7 @@ export default function Footer(){
                         <div className='icon-box'>
                             <div className='icon logo-light-icon'></div>
                         </div>
-                        <div className='footer-logo-text'>{`FILMPORT`}</div>
+                        <div className='footer-logo-text'>{`TRAVELOG`}</div>
                     </div>
                     <div className='footer-link-box'>
                         <div className='footer-email-link'>{`filmport@admin.com`}</div>

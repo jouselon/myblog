@@ -236,7 +236,7 @@ export default function Header() {
                         <div className='icon logo-dark-icon'></div>
                     </div>
 
-                    <div className='header-logo'>{`FILMPORT`}</div>
+                    <div className='header-logo'>{`TRAVELOG`}</div>
                 </div>
                 <div className='header-right-box'>
                     {(isUserPage || isMainPage || isSearchPage || isBoardDetailPage) && <SearchButton/>}
