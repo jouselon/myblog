@@ -291,6 +291,7 @@ export default function Authentication() {
             if (code === "DE") {
                 setEmailError(true);
                 setEmailErrorMessage('중복되는 이메일 주소입니다.')
+                setPage(1);
             }
             if (code === "DN") {
                 setNicknameError(true);

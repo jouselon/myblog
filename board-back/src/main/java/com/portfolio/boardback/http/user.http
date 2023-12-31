@@ -1,0 +1,3 @@
+
+GET http://localhost:4000/api/v1/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE3MDQwMTg1NTAsImV4cCI6MTcwNDAyMjE1MH0.sgk6NVBvSElamkqwL7w25QeThhxD3SOQl5N2HZX4iz8
