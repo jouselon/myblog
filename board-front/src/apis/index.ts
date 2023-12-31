@@ -4,6 +4,7 @@ import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 import {ResponseDto} from "./response";
 import SignInResponseDto from "./response/auth/sign-in.response.dto";
+import {SignUpResponseDto} from "./response/auth";
 
 const DOMAIN = 'http://localhost:4000'
 
@@ -27,5 +28,15 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
 }
 
 export const signUpRequest = async (requestBody: SignUpRequestDto) => {
-
+    const result = await axios.post(SIGN_UP_URL(), requestBody)
+        .then(response => {
+            const responseBody: SignUpResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response || !error.response.data) return null; // 추가된 부분
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
 }
