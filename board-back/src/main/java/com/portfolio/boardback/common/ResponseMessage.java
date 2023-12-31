@@ -3,7 +3,7 @@ package com.portfolio.boardback.common;
 public interface ResponseMessage {
 
   //HTTP  Status 200
-  String SUCCESS = "Sucess";
+  String SUCCESS = "Success";
 
   //HTTP Status 400
   String VALIDATION_FAILED = "Validation Failed";

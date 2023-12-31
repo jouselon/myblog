@@ -24,4 +24,5 @@ public class UserController {
     ResponseEntity<? super GetSignInUserResponseDto> response = userService.getSignInUser(email);
     return response;
   }
+
 }

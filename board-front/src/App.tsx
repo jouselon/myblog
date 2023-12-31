@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Container from 'layouts/Container';
@@ -8,18 +8,25 @@ import Authentication from 'views/Authentication';
 import BoardDetail from 'views/Board/Detail';
 import BoardWrite from 'views/Board/Write';
 import BoardUpdate from 'views/Board/Update';
-import User from 'views/User';
+import UserP from 'views/User';
 import Search from 'views/Search';
 import {
     AUTH_PATH,
     BOARD_DETAIL_PATH,
-    BOARD_PATH,
     BOARD_UPDATE_PATH,
     BOARD_WRITE_PATH,
     MAIN_PATH,
     SEARCH_PATH,
     USER_PATH,
 } from 'constant';
+import {useCookies} from "react-cookie";
+import {userLoginUserStore} from "./stores";
+import {getSignInUserRequest} from "./apis";
+import {GetSignInUserResponseDto} from "./apis/response/user";
+import {ResponseDto} from "./apis/response";
+import {User} from "./types/interface";
+
+
 
 // description: 메인화면 : '/' - Main
 // description: 로그인 + 회원가입 화면 : '/auth' - Authentication
@@ -28,7 +35,41 @@ import {
 // description: 게시물 작성하기 : '/board/write' - BoardWrite
 // description: 게시물 수정하기 : '/board/update/:boardNumber' - BoardUpdate
 
+
+
+//component : Application 컴포넌트
 function App() {
+
+    //state : 로그인 유저 전역 상태
+    const { setLoginUser, resetLoginUser } = userLoginUserStore();
+
+
+    //state : cookie 상태
+    const [cookies, setCookie] = useCookies();
+
+    //function : get sign in user response 처리함수
+    const getSignInUserResponse = (responseBody : GetSignInUserResponseDto | ResponseDto | null ) => {
+        if (!responseBody) return;
+        const {code} = responseBody;
+        if(code === 'AF' || code === 'NU' || code === 'DBE') {
+            resetLoginUser();
+            return;
+        }
+        const loginUser : User = {...responseBody as GetSignInUserResponseDto };
+        setLoginUser(loginUser)
+    }
+
+
+    //effect : accessToken cookie 값이 변경될 때마다 실행할 함수
+    useEffect(()=> {
+        if (!cookies.accessToken) {
+            resetLoginUser();
+            return;
+        }
+        getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse)
+    },[cookies.accessToken])
+
+
     return (
         <Routes>
             <Route element={<Container />}>
@@ -38,7 +79,7 @@ function App() {
                 <Route path={BOARD_WRITE_PATH()} element={<BoardWrite />} />
                 <Route path={BOARD_DETAIL_PATH(':boardNumber')} element={<BoardDetail />} />
                 <Route path={BOARD_UPDATE_PATH(':boardNumber')} element={<BoardUpdate />} />
-                <Route path={USER_PATH(':searchEmail')} element={<User />} />
+                <Route path={USER_PATH(':userEmail')} element={<UserP />} />
                 <Route path='*' element={<h1>404 Not Found</h1>} />
             </Route>
         </Routes>

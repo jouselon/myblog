@@ -16,6 +16,7 @@ import * as events from "events";
 import {useCookies} from "react-cookie";
 import {useBoardStore, userLoginUserStore} from "stores";
 import BoardDetail from "views/Board/Detail";
+import * as path from "path";
 
 
 //component : 헤더 레이아웃
@@ -153,28 +154,29 @@ export default function Header() {
             if (!loginUser) return;
             const {email} = loginUser;
 
-            navigate(USER_PATH(''));
+            navigate(USER_PATH(email));
         }
 
         //event handler : 마이페이지 버튼 클릭 이벤트 처리 함수
         const onSignOutButtonClickHandler = () => {
             resetLoginUser();
-            navigate(MAIN_PATH())
-
-        }
+            setCookies('accessToken', '', { path:MAIN_PATH(), expires: new Date() })
+            navigate(MAIN_PATH());
+        };
 
         //event handler : 로그인 버튼 클릭 이벤트 처리 함수
         const onSighInButtonClickHandler = () => {
             navigate(AUTH_PATH());
         };
 
+        //render: 로그아웃 버튼 컴포넌트 렌더링
+        if (loginUser && userEmail === loginUser.email)
+            return <div className='white-button' onClick={onSignOutButtonClickHandler}>{'로그아웃'}</div>
+
         if (isLogin)
             //render: 마이페이지 버튼 컴포넌트 렌더링
             return <div className='white-button' onClick={onMyPageButtonClickHandler}>{'마이페이지'}</div>
 
-        //render: 로그아웃 버튼 컴포넌트 렌더링
-        if (isLogin && userEmail === loginUser?.email)
-        return <div className='white-button' onClick={onSignOutButtonClickHandler}>{'로그아웃'}</div>
 
         //render : 로그인 버튼 컴포넌트 렌더링
         return <div className='black-button' onClick={onSighInButtonClickHandler}>{'로그인'}</div>;
@@ -201,12 +203,12 @@ export default function Header() {
         return <div className='disable-button'>{'업로드'}</div>;
 
     }
-    //effect : path가 변경될ㄹ 때마다 변경될 함수
+    //effect : path가 변경될 때마다 변경될 함수
     useEffect(()=>{
         const isAuthPage = pathname.startsWith(AUTH_PATH());
         setAuthPage(isAuthPage);
 
-        const isMainPage = pathname.startsWith(MAIN_PATH());
+        const isMainPage = pathname === MAIN_PATH();
         setMainPage(isMainPage);
 
         const isSearchPage = pathname.startsWith(SEARCH_PATH(''));
@@ -226,6 +228,20 @@ export default function Header() {
 
     },[pathname]);
 
+//effect : path가 변경될 때마다 실행될 함수
+    useEffect(() => {
+
+    }, [pathname]);
+
+
+
+    //effect : login user가 변경될 때마다 실행될 함수
+
+    useEffect(() => {
+        setLogin(loginUser !== null);
+
+    }, [loginUser]);
+
 
     //render : 헤더 레이아웃 렌더링
     return (
@@ -239,7 +255,7 @@ export default function Header() {
                     <div className='header-logo'>{`TRAVELOG`}</div>
                 </div>
                 <div className='header-right-box'>
-                    {(isUserPage || isMainPage || isSearchPage || isBoardDetailPage) && <SearchButton/>}
+                    {(isAuthPage || isMainPage || isSearchPage || isBoardDetailPage) && <SearchButton/>}
                     {(isMainPage || isSearchPage || isBoardDetailPage || isUserPage) && <MyPageButton/>}
                     {(isBoardWritePage || isBoardUploadPage) && <UploadButton/>}
                 </div>
