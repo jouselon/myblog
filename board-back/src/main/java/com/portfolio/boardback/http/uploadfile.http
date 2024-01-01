@@ -1,0 +1,10 @@
+POST http://localhost:4000/file/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="netflix.png"
+Content-Type: image/png
+
+@/Users/heetaelee/Desktop/study/포트폴리오/banking-service/src/main/resources/images
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+

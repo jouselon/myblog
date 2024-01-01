@@ -170,7 +170,7 @@ export default function Header() {
         };
 
         //render: 로그아웃 버튼 컴포넌트 렌더링
-        if (loginUser && userEmail === loginUser.email)
+        if (loginUser && userEmail === loginUser?.email)
             return <div className='white-button' onClick={onSignOutButtonClickHandler}>{'로그아웃'}</div>
 
         if (isLogin)
